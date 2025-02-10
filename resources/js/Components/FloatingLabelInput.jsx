@@ -4,7 +4,7 @@ export default function FloatingLabelInput({ id, label, type = "text", name, val
     const [isFocused, setIsFocused] = useState(false);
 
     return (
-        <div className="relative z-0 w-full mb-8 group">
+        <div className="relative z-0 w-full mb-1 group">
             <input
                 id={id}
                 type={type}
@@ -20,7 +20,7 @@ export default function FloatingLabelInput({ id, label, type = "text", name, val
             />
             <label
                 htmlFor={id}
-                className={`absolute text-md text-white duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]
+                className={`absolute text-md text-white duration-300 transform -translate-y-6 scale-75 top-2 -z-10 origin-[0]
                 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75
                 peer-focus:-translate-y-6 peer-focus:text-blue-600 ${isFocused ? 'peer-focus:text-blue-600' : 'text-white'}`}
             >
