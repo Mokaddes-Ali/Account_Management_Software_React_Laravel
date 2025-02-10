@@ -19,10 +19,12 @@ class VerifyEmailController extends Controller
 
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
-            // Send the custom verification email
+
+            // Send the custom verification email with dashboard link
             Mail::to($request->user())->send(new CustomVerificationMail($request->user()));
         }
 
         return redirect()->intended(route('dashboard'))->with('verified', true);
     }
+
 }
