@@ -30,7 +30,7 @@ class CustomVerificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.custom-verification',
+            view: 'Mails/VerifyEmail',
             with: [
                 'name' => $this->user->name,
                 'verificationUrl' => route('verification.verify', ['id' => $this->user->id, 'hash' => sha1($this->user->email)]),
