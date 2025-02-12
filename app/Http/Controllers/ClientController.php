@@ -120,6 +120,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use Inertia\Inertia;
+
+use Illuminate\Support\Facades\Validator;
+
 use App\Notifications\ClientStatusNotification;
 
 use Illuminate\Support\Facades\Mail;
@@ -185,7 +189,7 @@ public function reject(Client $client)
     public function store(Request $request)
     {
         // Validate the request
-      $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|max:40',
             'father_name' => 'required|max:40',
             'mother_name' => 'required|max:40',
@@ -224,6 +228,13 @@ public function reject(Client $client)
             'slug' => 'nullable|max:50',
         ]);
 
+        if ($validator->fails()) {
+            return Inertia::render('Client/Create', [
+                'errors' => $validator->errors(),
+                'formData' => $request->all(),
+            ]);
+        }
+
         // Handle file uploads
         $data = $request->except(['_token', 'pic', 'nid_pic_font', 'nid_pic_back', 'guarantor_nid_pic_font', 'guarantor_nid_pic_back', 'guarantor_pic']);
 
@@ -258,9 +269,15 @@ public function reject(Client $client)
         $client = Client::create($data);
 
         if ($client) {
-            return redirect()->route('client.show')->with('success', 'Client created successfully.');
+            return Inertia::render('Client/Index', [
+                'success' => true,
+                'message' => 'Client created successfully!',
+            ]);
         } else {
-            return back()->with('error', 'Failed to create client.');
+            return Inertia::render('Client/Create', [
+                'success' => false,
+                'message' => 'Failed to create client.',
+            ]);
         }
     }
 

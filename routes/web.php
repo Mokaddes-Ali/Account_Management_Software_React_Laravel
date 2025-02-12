@@ -41,6 +41,9 @@ Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/clients', function () {
+    return Inertia::render('Client/ClientCreate');
+})->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -61,14 +64,6 @@ Route::get('otp-verify', function () {
 
 
 
-
-Route::get('/dashboard', function () {
-    return view('layouts.master');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 
